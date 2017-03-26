@@ -44,6 +44,7 @@ namespace maktabkhooneh_link_finder
                 btnStart.Enabled = false;
                 radHq.Enabled = false;
                 radLq.Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
             }
             else
             {
@@ -52,6 +53,7 @@ namespace maktabkhooneh_link_finder
                 btnStart.Enabled = true;
                 radHq.Enabled = true;
                 radLq.Enabled = true;
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -185,6 +187,49 @@ namespace maktabkhooneh_link_finder
             else
                 errorText = "Unknown Error. We're sorry.";
             MessageBox.Show(errorText, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(txtOutputURLs.Text);
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtOutputURLs.Clear();
+        }
+
+        private void btnTotalSize_Click(object sender, EventArgs e)
+        {
+            try {
+                setUiState(true);
+                string videoUrl = txtOutputURLs.Lines[1]; //second line as a sample
+                int fileSize = (int)(getFileSize(videoUrl) / 1048576);
+                int n = 0;
+                foreach (var line in txtOutputURLs.Lines)
+                    if (line != "")
+                        n++;
+                int estimatedTotalSize = fileSize * n;
+                string text = "Sample File Size: " + fileSize + " MB\n" +
+                    "Number of Files in the list: " + n + "\n" +
+                    "Estimated Total Download Size: " + estimatedTotalSize + " MB";
+                setUiState(false);
+                MessageBox.Show(text, "Estimated Total Size", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch
+            {
+                setUiState(false);
+                showError(RESULT_CODE.UNKNOWN_ERROR);
+            }
+        }
+        long getFileSize(string url)
+        {
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "HEAD";
+            WebResponse response = request.GetResponse();
+            long size = 0;
+            long.TryParse(response.Headers.Get("Content-Length"), out size);
+            return size;
         }
     }
 }

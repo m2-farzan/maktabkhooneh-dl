@@ -35,6 +35,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.txtOutputURLs = new System.Windows.Forms.TextBox();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnTotalSize = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -104,17 +107,51 @@
             this.txtOutputURLs.Location = new System.Drawing.Point(15, 166);
             this.txtOutputURLs.Multiline = true;
             this.txtOutputURLs.Name = "txtOutputURLs";
-            this.txtOutputURLs.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtOutputURLs.Size = new System.Drawing.Size(695, 318);
+            this.txtOutputURLs.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtOutputURLs.Size = new System.Drawing.Size(695, 272);
             this.txtOutputURLs.TabIndex = 6;
             this.txtOutputURLs.WordWrap = false;
             // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(15, 444);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(224, 40);
+            this.btnCopy.TabIndex = 5;
+            this.btnCopy.Text = "Copy To Clipboard";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(245, 444);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(235, 40);
+            this.btnClear.TabIndex = 5;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // btnTotalSize
+            // 
+            this.btnTotalSize.Location = new System.Drawing.Point(486, 444);
+            this.btnTotalSize.Name = "btnTotalSize";
+            this.btnTotalSize.Size = new System.Drawing.Size(224, 40);
+            this.btnTotalSize.TabIndex = 5;
+            this.btnTotalSize.Text = "Estimate Total Size";
+            this.btnTotalSize.UseVisualStyleBackColor = true;
+            this.btnTotalSize.Click += new System.EventHandler(this.btnTotalSize_Click);
+            // 
             // MainForm
             // 
+            this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 496);
             this.Controls.Add(this.txtOutputURLs);
+            this.Controls.Add(this.btnTotalSize);
+            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.radLq);
@@ -122,7 +159,7 @@
             this.Controls.Add(this.txtInputURL);
             this.Controls.Add(this.linkLabel1);
             this.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Maktabkhooneh Link Finder";
@@ -140,6 +177,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtOutputURLs;
+        private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnTotalSize;
     }
 }
 
