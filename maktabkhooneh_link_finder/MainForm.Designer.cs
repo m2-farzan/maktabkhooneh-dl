@@ -43,14 +43,13 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(37, 80);
+            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(32, 36);
             this.linkLabel1.Location = new System.Drawing.Point(15, 18);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(649, 26);
+            this.linkLabel1.Size = new System.Drawing.Size(547, 26);
             this.linkLabel1.TabIndex = 0;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Enter link of the course page: (e.g. https://maktabkhooneh.org/course/golshani40)" +
-    "";
+            this.linkLabel1.Text = "Enter link of the course page: (https://maktabkhooneh.org/course/...)";
             this.linkLabel1.UseCompatibleTextRendering = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 

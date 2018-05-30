@@ -151,11 +151,7 @@ namespace maktabkhooneh_link_finder
         }
         private bool isVideoPageAddress(string url)
         {
-            if (url.Length <= 7)
-                return false;
-            if (url.Substring(0, 7) == @"/video/")
-                return true;
-            return false;
+            return (url.Contains("lesson"));
         }
         private string findDirectLink(string videoPageUrl, bool isHq)
         {
@@ -167,9 +163,8 @@ namespace maktabkhooneh_link_finder
             {
                 videoPageContent = sr.ReadToEnd();
             }
-            string hqId = videoPageContent.Split(new string[] { @"/videos/hq" }, StringSplitOptions.None)[1].Split('\"')[0];
-            string GeneralId = isHq ? hqId : hqId.Remove(hqId.LastIndexOf("hq"), 3);
-            string GeneralUrl = "http://cdnmaktab.takhtesefid.org/videos/" + (isHq?"hq":"") + GeneralId;
+            string Id = videoPageContent.Split(new string[] { @"/videos/hq" }, StringSplitOptions.None)[1].Split('\"')[0];
+            string GeneralUrl = "http://takhtesefid.org/videos/" + (isHq?"hq":"") + Id; //cdnmaktab is currently down
             return GeneralUrl;
         }
 
