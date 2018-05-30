@@ -38,6 +38,7 @@
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnTotalSize = new System.Windows.Forms.Button();
+            this.chkRename = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -64,7 +65,7 @@
             // 
             this.radHq.AutoSize = true;
             this.radHq.Checked = true;
-            this.radHq.Location = new System.Drawing.Point(335, 89);
+            this.radHq.Location = new System.Drawing.Point(90, 89);
             this.radHq.Name = "radHq";
             this.radHq.Size = new System.Drawing.Size(64, 25);
             this.radHq.TabIndex = 2;
@@ -75,7 +76,7 @@
             // radLq
             // 
             this.radLq.AutoSize = true;
-            this.radLq.Location = new System.Drawing.Point(405, 89);
+            this.radLq.Location = new System.Drawing.Point(160, 89);
             this.radLq.Name = "radLq";
             this.radLq.Size = new System.Drawing.Size(61, 25);
             this.radLq.TabIndex = 3;
@@ -85,7 +86,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(257, 91);
+            this.label1.Location = new System.Drawing.Point(12, 91);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 21);
             this.label1.TabIndex = 4;
@@ -141,12 +142,25 @@
             this.btnTotalSize.UseVisualStyleBackColor = true;
             this.btnTotalSize.Click += new System.EventHandler(this.btnTotalSize_Click);
             // 
+            // chkRename
+            // 
+            this.chkRename.AutoSize = true;
+            this.chkRename.Checked = true;
+            this.chkRename.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRename.Location = new System.Drawing.Point(435, 91);
+            this.chkRename.Name = "chkRename";
+            this.chkRename.Size = new System.Drawing.Size(276, 25);
+            this.chkRename.TabIndex = 7;
+            this.chkRename.Text = "Rename Videos (Recommended)";
+            this.chkRename.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 496);
+            this.Controls.Add(this.chkRename);
             this.Controls.Add(this.txtOutputURLs);
             this.Controls.Add(this.btnTotalSize);
             this.Controls.Add(this.btnClear);
@@ -179,6 +193,7 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnTotalSize;
+        private System.Windows.Forms.CheckBox chkRename;
     }
 }
 

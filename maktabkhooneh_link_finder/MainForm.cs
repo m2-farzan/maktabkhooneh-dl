@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.IO;
 using System.Windows.Forms;
+using System.Web;
 
 namespace maktabkhooneh_link_finder
 {
@@ -163,8 +164,13 @@ namespace maktabkhooneh_link_finder
             {
                 videoPageContent = sr.ReadToEnd();
             }
-            string Id = videoPageContent.Split(new string[] { @"/videos/hq" }, StringSplitOptions.None)[1].Split('\"')[0];
-            string GeneralUrl = "http://takhtesefid.org/videos/" + (isHq?"hq":"") + Id; //cdnmaktab is currently down
+            string Id = videoPageContent.Split(new string[] { @"/videos/hq" }, StringSplitOptions.None)[1].Split(new string[] { ".mp4" }, StringSplitOptions.None)[0];
+            string GeneralUrl = "http://takhtesefid.org/videos/" + (isHq ? "hq" : "") + Id + ".mp4"; //cdnmaktab is currently down
+            if (chkRename.Checked)
+            {
+                string VideoName = videoPageContent.Split(new string[] { "<h1 class=\"video-name\">\n                " }, StringSplitOptions.None)[1].Split(new string[] { "\n" }, StringSplitOptions.None)[0];
+                GeneralUrl = GeneralUrl + "?name=" + HttpUtility.UrlPathEncode(VideoName) + ".mp4";
+            }
             return GeneralUrl;
         }
 

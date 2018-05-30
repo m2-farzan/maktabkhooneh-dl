@@ -5,3 +5,4 @@ C:\Users\Mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder
 C:\Users\Mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Release\maktabkhooneh_link_finder.csproj.GenerateResource.Cache
 C:\Users\Mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Release\maktabkhooneh_link_finder.exe
 C:\Users\Mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Release\maktabkhooneh_link_finder.pdb
+C:\Users\Mostafa\Documents\Visual Studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Release\maktabkhooneh_link_finder.csprojResolveAssemblyReference.cache
