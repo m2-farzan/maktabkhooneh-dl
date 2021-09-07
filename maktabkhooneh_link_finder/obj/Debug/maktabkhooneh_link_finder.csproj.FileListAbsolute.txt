@@ -1,8 +1,0 @@
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\bin\Debug\maktabkhooneh_link_finder.exe
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\bin\Debug\maktabkhooneh_link_finder.pdb
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Debug\maktabkhooneh_link_finder.csprojResolveAssemblyReference.cache
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Debug\maktabkhooneh_link_finder.Properties.Resources.resources
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Debug\maktabkhooneh_link_finder.csproj.GenerateResource.Cache
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Debug\maktabkhooneh_link_finder.exe
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Debug\maktabkhooneh_link_finder.pdb
-c:\users\mostafa\documents\visual studio 2015\Projects\maktabkhooneh_link_finder\maktabkhooneh_link_finder\obj\Debug\maktabkhooneh_link_finder.MainForm.resources
