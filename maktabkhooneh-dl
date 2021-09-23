@@ -3,6 +3,8 @@ import argparse
 from http.cookiejar import MozillaCookieJar
 import logging
 import os
+import platform
+import re
 import subprocess
 import sys
 
@@ -51,6 +53,7 @@ def main():
     # Download lectures
     for i in download_range:
         title, url = lecture_page_urls[i]
+        title = sanitize_for_filename(title)
         final_extension = "mp3" if args.mp3 else "mp4"
         intermediate_file = f"{title}.mp4.incomplete"
         final_file = f"{title}.{final_extension}"
@@ -119,6 +122,14 @@ def make_absolute(url):
     if url[:4] == 'http':
         return url
     return 'https://maktabkhooneh.org' + url
+
+
+def sanitize_for_filename(filename):
+    os = platform.system()
+    if os == 'Windows':
+        return re.sub('[\<\>\:\"\/\\\|\?\*]', '-', filename)
+    else:
+        return re.sub('\/', '-', filename)
 
 
 # Credit: https://gist.github.com/yanqd0/c13ed29e29432e3cf3e7c38467f42f51
