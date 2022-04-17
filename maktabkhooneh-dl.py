@@ -113,8 +113,9 @@ def main():
                 else:
                     download_link = HQ_download_link
             else:
-                logging.error(f'Invalid page layout:{make_absolute(url)}')
-                exit(1)
+                logging.warn(f'Invalid page layout:{make_absolute(url)}')
+                logging.info('Maybe the page is a quize')
+                continue
 
         # Download
         logging.info("Downloading lecture file...")
