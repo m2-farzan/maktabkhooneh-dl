@@ -94,6 +94,7 @@ def main():
             folder = section[0].get_text(strip=True)
 
         if len(folder) > 0:
+            folder = sanitize_for_filename(folder)
             if folder != last_folder:
                 folder_index += 1
                 last_folder = folder
