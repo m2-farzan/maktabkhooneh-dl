@@ -66,6 +66,10 @@ def main():
     # Download lectures
     for i in download_range:
         title, url = lecture_page_urls[i]
+        if not url or len(url) == 0:
+            logging.info('there is no download in this page. skipping...')
+            continue
+
         title = sanitize_for_filename(title)
         final_extension = "mp3" if args.mp3 else "mp4"
         intermediate_file = f"{title}.mp4.incomplete"
