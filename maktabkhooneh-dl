@@ -49,14 +49,15 @@ def main():
         download_range = range(int(start), int(end))
     else:
         download_range = range(number_of_lectures) # Download all
-
+    folder_index = 0
+    last_folder = ''
     # Download lectures
     for i in download_range:
         title, url = lecture_page_urls[i]
         title = sanitize_for_filename(title)
         final_extension = "mp3" if args.mp3 else "mp4"
         intermediate_file = f"{title}.mp4.incomplete"
-        final_file = f"{title}.{final_extension}"
+        final_file = f"{(i+1):03d}-{title}.{final_extension}"
 
         # Bail if lecture is already downloaded
         if os.path.exists(final_file):
@@ -71,10 +72,49 @@ def main():
         # Find download links
         logging.info("Scraping download link...")
         bs = BeautifulSoup(lecture_page.content, 'html.parser')
+        section = bs.select('.breadcrumb__item a')
+
+        # specifying folder
+        folder = '' # no special folder
+        if len(section) > 1:
+            folder = section[len(section)-2].get_text(strip=True)
+        elif len(section) > 0:
+            folder = section[0].get_text(strip=True)
+
+        if len(folder) > 0:
+            if folder != last_folder:
+                folder_index += 1
+                last_folder = folder
+            numbered_folder = f'{folder_index:02d}-{folder}'
+            if not os.path.exists(numbered_folder):
+                os.makedirs(numbered_folder)
+            final_file = numbered_folder + os.sep + final_file
+
+        if os.path.exists(final_file):
+            logging.info(f"Lecture {i+1} exists. Skipping...")
+            continue
+
         all_download_links = bs.select('.unit-content--download a')
-        HQ_download_link = all_download_links[0].get('href') # HQ comes first in page layout
-        LQ_download_link = all_download_links[1].get('href') # LG comes second in page layout
-        download_link = LQ_download_link if (args.low_quality or args.mp3) else HQ_download_link
+        if len(all_download_links) > 0:
+            HQ_download_link = all_download_links[0].get('href') # HQ comes first in page layout
+            if len(all_download_links) > 1:
+                LQ_download_link = all_download_links[1].get('href') # LG comes second in page layout
+                download_link = LQ_download_link if (args.low_quality or args.mp3) else HQ_download_link
+            else:
+                download_link = HQ_download_link
+        else:
+            # lets find the download urls from js video player ;)
+            all_download_links = bs.select('.js-player__source')
+            if len(all_download_links) > 0:
+                HQ_download_link = all_download_links[0].get('src') # HQ comes first in page layout
+                if len(all_download_links) > 1:
+                    LQ_download_link = all_download_links[1].get('src') # LG comes second in page layout
+                    download_link = LQ_download_link if (args.low_quality or args.mp3) else HQ_download_link
+                else:
+                    download_link = HQ_download_link
+            else:
+                logging.error(f'Invalid page layout:{make_absolute(url)}')
+                exit(1)
 
         # Download
         logging.info("Downloading lecture file...")
@@ -127,9 +167,9 @@ def make_absolute(url):
 def sanitize_for_filename(filename):
     os = platform.system()
     if os == 'Windows':
-        return re.sub('[\<\>\:\"\/\\\|\?\*]', '-', filename)
+        return re.sub('[\<\>\:\"\/\\\|\?\*]', '-', re.sub('&.+?;', '-', filename))
     else:
-        return re.sub('\/', '-', filename)
+        return re.sub('\/', '-', re.sub('&.+?;', '-', filename))
 
 
 # Credit: https://gist.github.com/yanqd0/c13ed29e29432e3cf3e7c38467f42f51
