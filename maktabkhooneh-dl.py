@@ -1,6 +1,7 @@
 #!/bin/python3
 import argparse
 from http.cookiejar import MozillaCookieJar
+from importlib.resources import path
 import logging
 import os
 import platform
@@ -31,6 +32,16 @@ def main():
     # Parse course page and find links to lecture pages
     logging.info("Scraping lecture pages...")
     bs = BeautifulSoup(course_page.content, 'html.parser')
+
+    course_title = ''
+    course_title_elements = bs.select('h1')
+    if len(course_title_elements) > 0:
+        course_title = course_title_elements[0].getText(strip=True)
+        course_title = sanitize_for_filename(course_title) + os.sep
+        logging.info(f'Course Title: {course_title[0:-1]}')
+    else:
+        logging.warning(f'Course title not found')
+
     lecture_page_link_elements = bs.select('.chapter__unit')
     lecture_page_urls = [(element.get('title'), element.get('href')) for element in lecture_page_link_elements]
     number_of_lectures = len(lecture_page_urls)
@@ -86,7 +97,7 @@ def main():
             if folder != last_folder:
                 folder_index += 1
                 last_folder = folder
-            numbered_folder = f'{folder_index:02d}-{folder}'
+            numbered_folder = f'{course_title}{folder_index:02d}-{folder}'
             if not os.path.exists(numbered_folder):
                 os.makedirs(numbered_folder)
             final_file = numbered_folder + os.sep + final_file
@@ -114,7 +125,7 @@ def main():
                 else:
                     download_link = HQ_download_link
             else:
-                logging.warn(f'Invalid page layout:{make_absolute(url)}')
+                logging.warning(f'Invalid page layout:{make_absolute(url)}')
                 logging.info('Maybe the page is a quize')
                 continue
 
@@ -176,9 +187,9 @@ def sanitize_for_filename(filename):
 
 # Credit: https://gist.github.com/yanqd0/c13ed29e29432e3cf3e7c38467f42f51
 def download(url: str, fname: str):
-    resp = requests.get(url, stream=True)
-    total = int(resp.headers.get('content-length', 0))
     while True:
+        resp = requests.get(url, stream=True)
+        total = int(resp.headers.get('content-length', 0))
         with open(fname, 'wb') as file, tqdm(
             desc="        Progress",
             total=total,
@@ -194,7 +205,7 @@ def download(url: str, fname: str):
             break
         else:
             os.remove(fname)
-            logging.warn("downloaded file corrupted. retrying...")
+            logging.warning("downloaded file corrupted. retrying...")
     
 
 
