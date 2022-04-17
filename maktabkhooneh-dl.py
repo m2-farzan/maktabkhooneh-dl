@@ -7,6 +7,7 @@ import platform
 import re
 import subprocess
 import sys
+from tkinter import END
 
 from bs4 import BeautifulSoup
 import coloredlogs
@@ -177,16 +178,24 @@ def sanitize_for_filename(filename):
 def download(url: str, fname: str):
     resp = requests.get(url, stream=True)
     total = int(resp.headers.get('content-length', 0))
-    with open(fname, 'wb') as file, tqdm(
-        desc="        Progress",
-        total=total,
-        unit='iB',
-        unit_scale=True,
-        unit_divisor=1024,
-    ) as bar:
-        for data in resp.iter_content(chunk_size=1024):
-            size = file.write(data)
-            bar.update(size)
+    while True:
+        with open(fname, 'wb') as file, tqdm(
+            desc="        Progress",
+            total=total,
+            unit='iB',
+            unit_scale=True,
+            unit_divisor=1024,
+        ) as bar:
+            for data in resp.iter_content(chunk_size=1024):
+                size = file.write(data)
+                bar.update(size)
+        downloaded_size = os.path.getsize(fname)
+        if downloaded_size == total:
+            break
+        else:
+            os.remove(fname)
+            logging.warn("downloaded file corrupted. retrying...")
+    
 
 
 def exception_handler(_type, value, _tb):
