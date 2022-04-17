@@ -50,13 +50,14 @@ def main():
     else:
         download_range = range(number_of_lectures) # Download all
     folder_index = 1
+    last_folder = ''
     # Download lectures
     for i in download_range:
         title, url = lecture_page_urls[i]
         title = sanitize_for_filename(title)
         final_extension = "mp3" if args.mp3 else "mp4"
         intermediate_file = f"{title}.mp4.incomplete"
-        final_file = f"{i:03d}-{title}.{final_extension}"
+        final_file = f"{(i+1):03d}-{title}.{final_extension}"
 
         # Bail if lecture is already downloaded
         if os.path.exists(final_file):
@@ -82,7 +83,9 @@ def main():
 
         if(len(folder) > 0):
             folder = f'{folder_index:02d}-{folder}'
-            folder_index += 1
+            if(folder != last_folder):
+                folder_index += 1
+                last_folder = folder
             if(not os.path.exists(folder)):
                 os.makedirs(folder)
             final_file = folder + os.sep + final_file
