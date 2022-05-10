@@ -8,7 +8,6 @@ import platform
 import re
 import subprocess
 import sys
-from tkinter import END
 
 from bs4 import BeautifulSoup
 import coloredlogs
