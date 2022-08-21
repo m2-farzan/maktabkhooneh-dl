@@ -31,8 +31,7 @@
   <h2>راهنمای کامل</h2>
   <div dir="ltr">
     <pre><code>$ ./maktabkhooneh-dl --help
-usage: maktabkhooneh-dl [-h] [-L] [--mp3] [--range RANGE]
-                        cookies_file course_url
+usage: maktabkhooneh-dl [-h] [-L] [--mp3] [--range RANGE] [--store-urls STORE_URLS] [--no-download] cookies_file course_url
 
 This is a batch download utility for maktabkhooneh.org
 
@@ -40,11 +39,14 @@ positional arguments:
   cookies_file
   course_url
 
-optional arguments:
-  -h, --help         show this help message and exit
+options:
+  -h, --help            show this help message and exit
   -L, --low-quality
   --mp3
-  --range RANGE      Only download a subset. Specify as `start:end` (inclusive) e.g. `--range=1:5`
+  --range RANGE         Only download a subset. Specify as `start:end` (inclusive) e.g. `--range=1:5`
+  --store-urls STORE_URLS
+                        Store download links in a file e.g. `--store-urls ./urls.txt --no-download`
+  --no-download         Don't download anything, useful when you only want to store download links
 
 Don't be cruel to their servers!
 Only download what you really want to watch.
