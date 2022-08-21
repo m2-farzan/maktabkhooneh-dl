@@ -62,6 +62,11 @@ def main():
         download_range = range(number_of_lectures) # Download all
     folder_index = 0
     last_folder = ''
+
+    # open a file for storing download links if necessary 
+    if args.store_urls:
+        urls_file = open(args.store_urls, 'w')
+
     # Download lectures
     for i in download_range:
         title, url = lecture_page_urls[i]
@@ -133,22 +138,27 @@ def main():
                 logging.info('Maybe the page is a quize')
                 continue
 
-        # Download
-        logging.info("Downloading lecture file...")
-        download(make_absolute(download_link), intermediate_file)
+        if args.store_urls:
+            urls_file.write(make_absolute(download_link)+"\n")
 
-        # Convert/rename
-        if not args.mp3:
-            # No further processing needed -- just rename
-            os.rename(intermediate_file, final_file)
-        else:
-            # Convert
-            logging.info("Converting to mp3...")
-            subprocess.check_output(["ffmpeg", "-i", intermediate_file, final_file]) # TODO: Make non-blocking
-            os.remove(intermediate_file)
+        # Download
+        if not args.no_download:
+            logging.info("Downloading lecture file...")
+            download(make_absolute(download_link), intermediate_file)
+
+            # Convert/rename
+            if not args.mp3:
+                # No further processing needed -- just rename
+                os.rename(intermediate_file, final_file)
+            else:
+                # Convert
+                logging.info("Converting to mp3...")
+                subprocess.check_output(["ffmpeg", "-i", intermediate_file, final_file]) # TODO: Make non-blocking
+                os.remove(intermediate_file)
         
         logging.info("Finished lecture.")
 
+    urls_file.close()
     logging.info("Finished all.")
 
 
@@ -168,6 +178,8 @@ def parse_args():
     argument_parser.add_argument("--range", default=None, help="Only download a subset. Specify as `start:end` (inclusive) e.g. `--range=1:5`")
     argument_parser.add_argument("cookies_file")
     argument_parser.add_argument("course_url")
+    argument_parser.add_argument("--store-urls",help="Store download links in a file e.g. `--store-urls ./urls.txt --no-download`")
+    argument_parser.add_argument("--no-download", action="store_true", help="Don't download anything, useful when you only want to store download links")
     return argument_parser.parse_args()
 
 
