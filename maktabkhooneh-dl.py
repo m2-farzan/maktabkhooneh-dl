@@ -158,7 +158,8 @@ def main():
         
         logging.info("Finished lecture.")
 
-    urls_file.close()
+    if args.store_urls:
+        urls_file.close()
     logging.info("Finished all.")
 
 
