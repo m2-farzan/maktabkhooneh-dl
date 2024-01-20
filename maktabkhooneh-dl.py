@@ -41,8 +41,8 @@ def main():
     else:
         logging.warning(f'Course title not found')
 
-    lecture_page_link_elements = bs.select('.chapter__unit')
-    lecture_page_urls = [(element.get('title'), element.get('href')) for element in lecture_page_link_elements]
+    lecture_page_link_elements = bs.select('.border-b-hawkes-blue')
+    lecture_page_urls = [(element.select_one('.text-blue').getText(strip=True), element.get('href')) for element in lecture_page_link_elements]
     number_of_lectures = len(lecture_page_urls)
     logging.info(f"Found {number_of_lectures} lectures.")
 
@@ -77,7 +77,7 @@ def main():
         title = sanitize_for_filename(title)
         final_extension = "mp3" if args.mp3 else "mp4"
         intermediate_file = f"{title}.mp4.incomplete"
-        final_file = f"{(i+1):03d}-{title}.{final_extension}"
+        final_file = f"{(i+1):02d}. {title}.{final_extension}"
 
         # Bail if lecture is already downloaded
         if os.path.exists(final_file):
@@ -93,6 +93,7 @@ def main():
         logging.info("Scraping download link...")
         bs = BeautifulSoup(lecture_page.content, 'html.parser')
         section = bs.select('.breadcrumb__item a')
+        content = bs.select('.unit-content')
 
         # specifying folder
         folder = '' # no special folder
@@ -106,7 +107,7 @@ def main():
             if folder != last_folder:
                 folder_index += 1
                 last_folder = folder
-            numbered_folder = f'{course_title}{folder_index:02d}-{folder}'
+            numbered_folder = f'{course_title}{folder_index:02d}. {folder}'
             if not os.path.exists(numbered_folder):
                 os.makedirs(numbered_folder)
             final_file = numbered_folder + os.sep + final_file
@@ -134,8 +135,25 @@ def main():
                 else:
                     download_link = HQ_download_link
             else:
-                logging.warning(f'Invalid page layout:{make_absolute(url)}')
-                logging.info('Maybe the page is a quize')
+                print(content)
+                if len(content) > 0:
+                    CAlinks = [links.findAll('a') for links in content]
+                    Clinks = [link.get('href') for link in CAlinks[0]]
+                    if len(Clinks) > 0:
+                        logging.info("Downloading Exercise Files...")
+                        for link in Clinks:
+                            fname = os.path.basename(link)
+                            download(make_absolute(link), fname)
+                else:            
+                    logging.warning(f'Invalid page layout:{make_absolute(url)}')
+                    logging.info('Maybe the page is a quize')
+                    # Open the file to add (if it doesn't exist, it will be created)
+                    file_path = numbered_folder + os.sep + "Quize Link.txt"
+                    with open(file_path, "a", encoding="utf-8") as file:
+                        # Write new lines to the end of the file
+                        file.write(f'{numbered_folder}{os.sep}{title}\n')
+                        file.write(f"{make_absolute(url)}\n\n")
+                    logging.info(f"The Quize Page URL have been added to the file '{file_path}' successfully.")
                 continue
 
         if args.store_urls:
